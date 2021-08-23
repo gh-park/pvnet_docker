@@ -1,0 +1,45 @@
+ cd ~/catkin_ws/src/realsense-ros/realsense2_camera/launch
+
+ roslaunch realsense2_camera demo_pointcloud.launch
+
+
+
+##DOCKER 실행
+git clone https://github.com/tjdalsckd/gpu_voxel_docker
+
+bash build.sh
+bash start.sh
+
+##다른 창으로 DOCKER 실행
+bash multi_terminal.sh
+
+##DOCKER1에서 compile
+cd ~/workspace/libfranka_gpu_voxel/
+bash build.sh 
+
+
+##다른 창으로ros_trajectory_subscriber compile
+
+git clone https://github.com/tjdalsckd/ros_trajectory_subscriber ros_trajectory_subscriber
+cmake .
+make -j16
+
+##trjectory subscriber 실행
+  ./joint_trajectory_sub 172.16.0.2 0 10
+
+## Docker2에서 visualization tool 실행
+ cd ~/workspace/gpu-voxels/build/bin 
+ ./gpu_voxels_visualizer
+--------------------------------------------------------------
+<2021-05-24 02:41:15.505> Visualization(Info) Visualizer::initializeVisualizer: Trying to open the Visualizer shared memory segment created by a process using VisProvider.
+----------------------------------------------------------
+위의 문구 확인 후 ctrl+C 로 종료
+
+##DOCKER1에서 프로그램 실행
+
+                   roll pitch yaw  X  Y  Z
+./gvl_ompl_planner 0     0     0   0  0  0
+
+##DOCKER2에서 visualization tool 실행
+ ./gpu_voxels_visualizer
+
