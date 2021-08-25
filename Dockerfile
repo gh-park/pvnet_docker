@@ -77,7 +77,7 @@ RUN wget http://groups.csail.mit.edu/vision/SUN/releases/SUN2012pascalformat.tar
 RUN mv SUN2012pascalformat.tar.gz /root/workspace/
 RUN cd /root/workspace/;tar -xvf SUN2012pascalformat.tar.gz
 RUN apt-get install libglu1
-RUN cd /root/workspace/;rm -r pvnet-rendering-smc;ls -al;git clone git@github.com:tjdalsckd/pvnet-rendering-smc.git;
+RUN cd /root/workspace/;rm -r pvnet-rendering-smc;ls -a;git clone git@github.com:tjdalsckd/pvnet-rendering-smc.git;
 RUN conda activate pvnet;pip install opencv-python
 RUN apt update && apt install -y libsm6 libxext6
 RUN apt-get install -y libxrender-dev
@@ -103,8 +103,17 @@ RUN cd /root/workspace/pvnet-rendering-smc/data/;ln -s /root/workspace/LINEMOD L
 RUN rm -r /root/workspace/pvnet-rendering-smc/data/LINEMOD/renders/cat/
 RUN apt-get install -y imagemagick
 RUN echo 'conda activate pvnet;cd /root/workspace'>>~/.bashrc
+RUN echo '#!/bin/bash'>>/root/workspace/make_dataset.sh
+RUN echo 'cd /root/workspace/pvnet-rendering-smc;bash move_file.sh'>>/root/workspace/make_dataset.sh
+RUN chmod 777 /root/workspace/make_dataset.sh
+RUN echo '#!/bin/bash'>>/root/workspace/start_training.sh
+RUN echo 'cd /root/workspace/pvnet_smc/data;ln -s /root/workspace/pvnet-rendering-smc/custom .;pip install numpy --upgrade;cd /root/workspace/pvnet_smc; python run.py --type custom;python train_net.py --cfg_file configs/linemod.yaml train.dataset CustomTrain test.dataset CustomTrain model mycat train.batch_size 4;'>>/root/workspace/start_training.sh
 
-
+RUN cd /root/workspace/;ls; git clone git@github.com:tjdalsckd/pvnet-rendering-smc.git pvnet-rendering-smc3;
+RUN cd /root/workspace/ ;cp -r pvnet-rendering-smc3 pvnet-rendering-smc; rm -r pvnet-rendering-smc3;
+RUN echo '#!/bin/bash'>>/root/workspace/test.sh
+RUN echo 'cd /root/workspace/pvnet_smc;python3 run.py --type visualize --cfg_file configs/linemod.yaml train.dataset CustomTrain test.dataset CustomTrain model mycat'>>/root/workspace/test.sh
+RUN chmod 777 /root/workspace/*.sh
 
 
 
