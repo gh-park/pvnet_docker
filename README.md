@@ -4,6 +4,12 @@
    bash build.sh
    bash start.sh
 ```
+# 학습결과 복사
+```bash
+
+   docker cp 보낼파일.pth  pvnet:/root/workspace/pvnet_smc/data/model/pvnet/mycat
+
+```
 # 도커내부
 ```bash
    ./make_dataset.sh
