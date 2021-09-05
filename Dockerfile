@@ -31,13 +31,13 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-5.3.0-Linux-x86_64.
 
 ARG ssh_prv_key
 ARG ssh_pub_key
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com > /root/.ssh/known_hosts
-RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
-    echo "$ssh_pub_key" > /root/.ssh/id_rsa.pub && \
-    chmod 600 /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa.pub
+RUN mkdir -p ~/.ssh && \
+    chmod 0700 ~/.ssh && \
+    ssh-keyscan github.com > ~/.ssh/known_hosts
+RUN echo "$ssh_prv_key" > ~/.ssh/id_rsa && \
+    echo "$ssh_pub_key" > ~/.ssh/id_rsa.pub && \
+    chmod 600 ~/.ssh/id_rsa && \
+    chmod 600 ~/.ssh/id_rsa.pub
 RUN apt-get install -y git
 RUN apt-get install -y gedit
 RUN echo "conda activate pvnet" >> ~/.bashrc
@@ -114,6 +114,16 @@ RUN cd /root/workspace/ ;cp -r pvnet-rendering-smc3 pvnet-rendering-smc; rm -r p
 RUN echo '#!/bin/bash'>>/root/workspace/test.sh
 RUN echo 'cd /root/workspace/pvnet_smc;python3 run.py --type visualize --cfg_file configs/linemod.yaml train.dataset CustomTrain test.dataset CustomTrain model mycat'>>/root/workspace/test.sh
 RUN chmod 777 /root/workspace/*.sh
+RUN conda activate pvnet;cd /root/workspace/pvnet_smc;git clone https://github.com/tjdalsckd/calibration_docker;  git clone https://github.com/tjdalsckd/gqcnnddddd gqcnn; 
+RUN conda activate pvnet;cd /root/workspace/pvnet_smc/gqcnn/gqcnn;pip3 install -U pip;pip3 install trimesh;cd gqcnn; git clone https://github.com/BerkeleyAutomation/meshrender.git; pip3 install autolab-core==0.0.14 autolab-perception==0.0.8 visualization==0.1.1;
+RUN conda activate pvnet; cd /root/workspace/pvnet_smc/gqcnn/gqcnn;pip3 install .
+RUN conda activate pvnet; pip3 install numpy==1.16.4; pip3 install pyrealsense2;
+RUN apt-get install unzip
+RUN conda activate pvnet; cd /root/workspace/pvnet_smc/calibration_docker; unzip GQCNN-4.0-PJ
+RUN conda activate pvnet; cd /root/workspace/pvnet_smc; mkdir -p models; cd models; cp -r ../calibration_docker/GQCNN* .
 
-
+RUN echo 'pip3 install numpy==1.16.4'>>/root/workspace/make_dataset.sh
+RUN echo '#!/bin/bash'>>/root/workspace/start_realsense.sh
+RUN echo 'pip3 install numpy --upgrade;cd /root/workspace/pvnet_smc;python3 test_realsense.py --type visualize --cfg_file configs/linemod.yaml train.dataset CustomTrain test.dataset CustomTrain model mycat'>>/root/workspace/start_realsense.sh
+RUN cd /root/workspace/;chmod 777 start_realsense.sh
 
