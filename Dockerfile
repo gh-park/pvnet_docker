@@ -54,7 +54,7 @@ RUN conda activate pvnet;conda install pytorch==1.2.0 torchvision==0.4.0 cudatoo
 RUN conda activate pvnet;pip install Cython==0.28.2
 RUN apt-get install -y libglfw3-dev libglfw3
 RUN mkdir -p /root/workspace;cd /root/workspace/; git clone git@github.com:tjdalsckd/pvnet_smc.git;
-RUN  conda activate pvnet ; pip install yacs==0.1.4 numpy==1.16.4 torchvision==0.2.1 opencv-python==3.4.2.17 tqdm==4.28.1 pycocotools==2.0.0 matplotlib==2.2.2 plyfile==0.6 scikit-image==0.14.2 scikit-learn PyOpenGL==3.1.1a1 ipdb==0.11 cyglfw3==3.1.0.2 pyassimp==3.3 progressbar==2.5 open3d-python==0.5.0.0 tensorboardX==1.2 cffi==1.11.5
+RUN  conda activate pvnet ; pip install yacs==0.1.4 numpy==1.16.4 torchvision==0.2.1 opencv-python==3.4.2.17 tqdm==4.28.1 pycocotools==2.0.0 matplotlib==2.2.2 plyfile==0.6 scikit-image==0.14.2 scikit-learn PyOpenGL==3.1.1a1 ipdb==0.13.9 cyglfw3==3.1.0.2 pyassimp==3.3 progressbar==2.5 open3d-python==0.5.0.0 tensorboardX==1.2 cffi==1.11.5
 ENV ROOT=/root/workspace/pvnet_smc
 ENV CUDA_VISIBLE_DEVICES=0,1
 RUN conda activate pvnet ;cd $ROOT/lib/csrc;export CUDA_HOME="/usr/local/cuda";cd dcn_v2;python setup.py build_ext --inplace;cd ../ransac_voting;python setup.py build_ext --inplace;cd ../fps;python setup.py; 
