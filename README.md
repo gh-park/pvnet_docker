@@ -23,3 +23,12 @@
 ```bash
    pip3 install Pillow==6.1
 ```
+# OPENCV 에러
+```bash
+   pip3 uninstall opencv-python; 
+   pip3 install opencv-python;
+```
+# 학습실행 시 ubuntu시스템의 priority 높여서 실행
+```bash
+   nice -n 99999 COMMAND
+```
