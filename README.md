@@ -17,3 +17,9 @@
    ./test.sh
    ./start_realsense.sh
 ```
+
+
+# PILLOW버전 안맞는경우
+```bash
+   pip3 install Pillow==6.1
+```
