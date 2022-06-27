@@ -1,5 +1,7 @@
 FROM nvidia/cudagl:10.0-devel-ubuntu18.04
 MAINTAINER minchang <tjdalsckd@gmail.com>
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv A4B469963BF863CC
+RUN gpg --export --armor A4B469963BF863CC | apt-key add -
 RUN apt-get update &&  apt-get install -y -qq --no-install-recommends \
     libgl1 \
     libxext6 \ 
